@@ -9,8 +9,12 @@ class PostController extends Controller
 {
     public function index(){
         return view('posts', [
-            "title" => "Posts",
-            "posts" =>  Post::all()
+            "title" => "All Posts",
+            // "posts" =>  Post::all()
+             // ini eagel loading untuk efisiansei dan mengatasi n+1 problem
+            "posts" =>  Post::with(['author','category'])->latest()->get()
+            // "posts" =>  Post::latest()->get()
+        
         ]);
     }
 

@@ -10,6 +10,11 @@ class Category extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+    protected $fillable = [
+        'nama',
+        'slug',
+       
+    ];
 
     public function posts(){
         return $this->hasMany(Post::class);

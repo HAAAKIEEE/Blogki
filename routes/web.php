@@ -3,6 +3,7 @@
 use App\Http\Controllers\PostController;
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -31,10 +32,18 @@ Route::get('/categories',function(){
 });
 
 Route::get('/categories/{category:slug}',function(Category $category){
-    return view('category',[
-        'title'=>$category->nama,
-        'posts'=> $category->posts,
+    return view('posts',[
+        'title'=>"Post by Category : $category->nama",
+        'posts'=> $category->posts->load('author','category'),
+        // ini leazy eagel untuk efisiansei dan mengatasi n+1
         'category'=>$category->nama
     ]);
 
+});
+
+Route::get('/authors/{user:username}',function(User $user){
+    return view('posts',[
+        'title'=>"User Post : $user->name",
+        'posts'=> $user->posts->load('author','category'),
+    ]);
 });
